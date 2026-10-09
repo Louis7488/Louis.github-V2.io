@@ -1,0 +1,1064 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/>
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RU-ronzier | UPHF Tertiales</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        uphf: {
+                            50: '#fdf4f6',
+                            100: '#fce7ec',
+                            500: '#e11d48',
+                            600: '#be123c',
+                            700: '#9f1239',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-uphf-600 flex items-center justify-center text-white shadow-lg shadow-uphf-500/30">
+                    <i class="fa-solid fa-utensils text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg leading-tight flex items-center gap-2">
+                        RU-ronzier <span class="text-xs bg-uphf-500/20 text-uphf-600 dark:text-uphf-400 px-2 py-0.5 rounded-full font-medium">UPHF</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="subtitle">Campus des Tertiales, Valenciennes</p>
+                </div>
+            </div>
+
+            <!-- Header Action Icons -->
+            <div class="flex items-center space-x-2">
+                <button onclick="openModal('dev-modal')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-200 transition flex items-center gap-1" title="Contact Développeur">
+                    <i class="fa-solid fa-code"></i> <span class="hidden sm:inline" data-i18n="contact">Contact</span>
+                </button>
+                <button onclick="toggleLang()" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-bold transition flex items-center gap-1 text-slate-700 dark:text-slate-200" title="Changer de langue">
+                    <i class="fa-solid fa-globe"></i> <span id="lang-label">EN</span>
+                </button>
+                <button onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-amber-500 dark:text-amber-400 transition">
+                    <i class="fa-solid fa-moon" id="theme-icon"></i>
+                </button>
+                <button onclick="openModal('profile-modal')" class="w-9 h-9 flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-slate-700 dark:text-slate-200 transition" title="Profil">
+                    <i class="fa-solid fa-user-shield"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6 pb-24">
+
+        <!-- TAB 1: ACCUEIL (AFFLUENCE & STATS) -->
+        <section id="tab-accueil" class="space-y-6 tab-content">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-uphf-600 to-rose-800 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold flex items-center gap-2">
+                            <span id="welcome-user-display" data-i18n="welcome_default">Bienvenue, Étudiant</span> 👋
+                        </h2>
+                        <p class="text-rose-100 text-sm mt-1" data-i18n="banner_desc">Suivez l'affluence en direct et consultez les menus du RU et de la Cafétéria des Tertiales.</p>
+                    </div>
+                    <div class="bg-black/20 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-semibold border border-white/10 flex items-center gap-2 text-white">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span data-i18n="secure_badge">Sécurisé anti-DDoS / Anti-bot</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OCCUPANCY CARDS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- RU LE RONZIER GAUGE -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold tracking-wider uppercase text-uphf-600 dark:text-uphf-400 bg-uphf-50 dark:bg-uphf-500/10 px-2.5 py-1 rounded-md" data-i18n="ru_badge">Restaurant Universitaire</span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-2">RU Le Ronzier</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-uphf-600 dark:text-uphf-400">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                        </div>
+
+                        <!-- Gauge Visual -->
+                        <div class="mt-5 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500 dark:text-slate-400" data-i18n="current_occupancy">Affluence actuelle :</span>
+                                <span class="font-bold text-slate-900 dark:text-white"><span id="ru-count">180</span> / 500 pers.</span>
+                            </div>
+                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-3.5 rounded-full overflow-hidden p-0.5">
+                                <div id="ru-progress" class="bg-gradient-to-r from-emerald-500 via-amber-500 to-uphf-600 h-full rounded-full transition-all duration-500" style="width: 36%;"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 pt-1">
+                                <span id="ru-status-label" class="font-semibold text-emerald-600 dark:text-emerald-400" data-i18n="ru_fluid">Fluide (Peu d'attente)</span>
+                                <span><span data-i18n="wait_time_label">Attente estimée :</span> <strong id="ru-wait-time" class="text-slate-900 dark:text-white">5 min</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Action Button -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+                        <span class="text-xs text-slate-500 dark:text-slate-400" data-i18n="anti_flood"><i class="fa-regular fa-clock mr-1"></i> Anti-flood actif</span>
+                        <button onclick="openModal('update-occupancy-modal')" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="update_btn">Modifier l'affluence</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CAFETERIA UPHF GAUGE -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold tracking-wider uppercase text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2.5 py-1 rounded-md" data-i18n="cafet_badge">Espace de détente</span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-2" data-i18n="cafet_title">Cafétéria UPHF</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                <i class="fa-solid fa-mug-hot"></i>
+                            </div>
+                        </div>
+
+                        <!-- Gauge Visual -->
+                        <div class="mt-5 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500 dark:text-slate-400" data-i18n="persons_present">Personnes présentes :</span>
+                                <span class="font-bold text-slate-900 dark:text-white"><span id="cafet-count">65</span> / 150 pers.</span>
+                            </div>
+                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-3.5 rounded-full overflow-hidden p-0.5">
+                                <div id="cafet-progress" class="bg-gradient-to-r from-emerald-500 via-amber-500 to-uphf-600 h-full rounded-full transition-all duration-500" style="width: 43%;"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 pt-1">
+                                <span id="cafet-status-label" class="font-semibold text-amber-600 dark:text-amber-400" data-i18n="cafet_modrate">Modéré</span>
+                                <span><span data-i18n="wait_time_label">Attente estimée :</span> <strong id="cafet-wait-time" class="text-slate-900 dark:text-white">5 min</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Action Button -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+                        <span class="text-xs text-slate-500 dark:text-slate-400" data-i18n="by_students"><i class="fa-regular fa-clock mr-1"></i> Par les étudiants</span>
+                        <button onclick="openModal('update-cafet-modal')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="update_btn">Modifier l'affluence</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK STATS & GAMIFICATION (Commence à 0) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl text-center shadow-sm">
+                    <div class="text-uphf-600 dark:text-uphf-400 text-lg mb-1"><i class="fa-solid fa-fire"></i></div>
+                    <div class="text-xl font-bold text-slate-900 dark:text-white" id="stat-reports">0</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400" data-i18n="stat_contrib">Contributions</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl text-center shadow-sm">
+                    <div class="text-amber-600 dark:text-amber-400 text-lg mb-1"><i class="fa-solid fa-award"></i></div>
+                    <div class="text-xl font-bold text-slate-900 dark:text-white" id="stat-xp">0 XP</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400" data-i18n="stat_score">Mon Score</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl text-center shadow-sm">
+                    <div class="text-emerald-600 dark:text-emerald-400 text-lg mb-1"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="text-xl font-bold text-slate-900 dark:text-white" id="stat-badge" data-i18n="badge_beginner">Débutant</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400" data-i18n="stat_badge_lbl">Badge Actuel</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl text-center shadow-sm">
+                    <div class="text-sky-600 dark:text-sky-400 text-lg mb-1"><i class="fa-solid fa-building-columns"></i></div>
+                    <div class="text-xl font-bold text-slate-900 dark:text-white">Tertiales</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400" data-i18n="stat_campus">Campus UPHF</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MENUS (RU & CAFET) -->
+        <section id="tab-menu" class="space-y-6 tab-content hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-lg">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-uphf-600 dark:text-uphf-400 bg-uphf-50 dark:bg-uphf-500/10 px-2.5 py-1 rounded-md" data-i18n="menu_tag">Restauration UPHF</span>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1" data-i18n="menu_title">Menus du Jour</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="menu_subtitle">Mis à jour pour le Campus des Tertiales</p>
+                </div>
+                <button onclick="openModal('admin-modal')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 transition flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                    <i class="fa-solid fa-lock text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="admin_space">Espace Admin</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- RU MENU CARD -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-lg space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-utensils text-uphf-600 dark:text-uphf-400"></i> RU Le Ronzier
+                        </h3>
+                        <span class="text-xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-full font-medium" id="ru-menu-date" data-i18n="today">Aujourd'hui</span>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-uphf-600 dark:text-uphf-400 block mb-1" data-i18n="starter">Entrée</span>
+                            <p id="menu-ru-starter" class="text-slate-700 dark:text-slate-200">Salade composée méditerranéenne ou Velouté de légumes</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-uphf-600 dark:text-uphf-400 block mb-1" data-i18n="main_dish">Plat principal</span>
+                            <p id="menu-ru-main" class="text-slate-700 dark:text-slate-200">Pavé de saumon sauce citronnée ou Emincé de volaille rôti & Frites</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-uphf-600 dark:text-uphf-400 block mb-1" data-i18n="dessert">Dessert</span>
+                            <p id="menu-ru-dessert" class="text-slate-700 dark:text-slate-200">Tarte aux pommes maison, Yaourt bio ou Fruit de saison</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAFETERIA MENU CARD -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-lg space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-mug-hot text-amber-500 dark:text-amber-400"></i> <span data-i18n="cafet_title">Cafétéria UPHF</span>
+                        </h3>
+                        <span class="text-xs bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-full font-medium" data-i18n="snacks_tag">Formules & Snacks</span>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 block mb-1" data-i18n="sandwiches">Sandwiches & Paninis</span>
+                            <p id="menu-cafet-sandwiches" class="text-slate-700 dark:text-slate-200">Poulet-Crudités, Jambon-Emmental, Panini 3 Fromages</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 block mb-1" data-i18n="viennoiseries">Viennoiseries & Snacks sucrés</span>
+                            <p id="menu-cafet-viennes" class="text-slate-700 dark:text-slate-200">Croissants, Pain au chocolat, Muffins chocolat/myrtille</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <span class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 block mb-1" data-i18n="drinks">Boissons & Chauds</span>
+                            <p id="menu-cafet-drinks" class="text-slate-700 dark:text-slate-200">Café espresso, Cappuccino, Thé vert, Jus de fruits frais</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: DISCUSSION -->
+        <section id="tab-discussion" class="space-y-6 tab-content hidden">
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-lg flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="chat_title">Fil de Discussion des Étudiants</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="chat_subtitle">Échangez entre étudiants du campus des Tertiales (Protégé anti-spam)</p>
+                </div>
+            </div>
+
+            <!-- Post New Message Form -->
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl shadow-lg space-y-3">
+                <textarea id="discussion-input" rows="3" class="w-full bg-slate-50 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 rounded-xl p-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-uphf-500" placeholder="Partagez une info sur le RU, l'ambiance ou posez une question..."></textarea>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-slate-500 dark:text-slate-400" data-i18n="ratelimit_note"><i class="fa-solid fa-shield text-emerald-500 dark:text-emerald-400 mr-1"></i> Rate-limit anti-flood (10s)</span>
+                    <button onclick="postMessage()" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> <span data-i18n="publish_btn">Publier</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message List -->
+            <div id="discussion-feed" class="space-y-4">
+                <!-- Dynamic messages injected here -->
+            </div>
+        </section>
+
+        <!-- TAB 4: LEADERBOARD -->
+        <section id="tab-leaderboard" class="space-y-6 tab-content hidden">
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-lg flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-amber-500 dark:text-amber-400"></i> <span data-i18n="leaderboard_title">Classement des Contributeurs</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="leaderboard_subtitle">Les étudiants les plus actifs pour l'affluence du campus</p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-lg">
+                <div class="p-4 bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-xs font-bold uppercase text-slate-500 dark:text-slate-400 grid grid-cols-12">
+                    <span class="col-span-2 text-center" data-i18n="rank">Rang</span>
+                    <span class="col-span-7" data-i18n="student_name">Étudiant (Prénom Nom)</span>
+                    <span class="col-span-3 text-right" data-i18n="xp_points">Points XP</span>
+                </div>
+                <div id="leaderboard-list" class="divide-y divide-slate-100 dark:divide-slate-700 text-sm">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: INFOS & REGLES -->
+        <section id="tab-infos" class="space-y-6 tab-content hidden">
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-lg">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-circle-info text-uphf-600 dark:text-uphf-400 mr-2"></i> <span data-i18n="info_title">Informations & Modalités</span></h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Campus des Tertiales - UPHF Valenciennes</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Horaires & Accès -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl space-y-3 shadow-sm">
+                    <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="hours_title">Horaires d'Ouverture</span>
+                    </h3>
+                    <ul class="text-sm space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex justify-between border-b border-slate-100 dark:border-slate-700/60 pb-2">
+                            <span data-i18n="ru_ronzier_lbl">RU Le Ronzier :</span> <span class="font-semibold text-slate-900 dark:text-white">11h30 - 13h45</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-100 dark:border-slate-700/60 pb-2">
+                            <span data-i18n="cafet_lbl">Cafétéria UPHF :</span> <span class="font-semibold text-slate-900 dark:text-white">08h00 - 16h30</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span data-i18n="days_open_lbl">Jours d'ouverture :</span> <span class="font-semibold text-emerald-600 dark:text-emerald-400" data-i18n="days_open_val">Lundi au Vendredi</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Règlement & Sanctions -->
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl space-y-3 shadow-sm">
+                    <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-amber-500 dark:text-amber-400"></i> <span data-i18n="rules_title">Règles & Sécurité</span>
+                    </h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="rules_desc">
+                        Cette PWA intègre des protections anti-DDoS, anti-spam et une limitation de fréquence des requêtes (rate-limiting) afin d'assurer la stabilité du service pour tous les étudiants des Tertiales.
+                    </p>
+                </div>
+            </div>
+
+            <!-- NEWSLETTER SECTION -->
+            <div class="bg-gradient-to-br from-white dark:from-slate-800 to-slate-50 dark:to-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-lg space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-uphf-50 dark:bg-uphf-500/20 text-uphf-600 dark:text-uphf-400 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-base" data-i18n="newsletter_title">Newsletter UPHF Tertiales</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="newsletter_desc">Recevez chaque lundi le menu de la semaine directement par e-mail.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <input type="email" id="newsletter-email" placeholder="votre.email@uphf.fr" class="flex-1 bg-slate-50 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-uphf-500">
+                    <button onclick="subscribeNewsletter()" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-6 py-3 rounded-xl transition shadow-md" data-i18n="subscribe_btn">
+                        S'inscrire
+                    </button>
+                </div>
+                <!-- Privacy Note with Developer Email -->
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                    <span data-i18n="gdpr_text">Conformément au RGPD. Contact développeur :</span> <span class="font-mono text-slate-700 dark:text-slate-300">louisPRK@proton.me</span>.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-700 shadow-2xl">
+        <div class="max-w-4xl mx-auto flex justify-around py-2">
+            <button onclick="switchTab('accueil')" id="nav-accueil" class="nav-btn flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-uphf-600 dark:text-uphf-400 transition">
+                <i class="fa-solid fa-house text-lg mb-0.5"></i>
+                <span class="text-[10px] font-semibold" data-i18n="nav_home">Accueil</span>
+            </button>
+            <button onclick="switchTab('menu')" id="nav-menu" class="nav-btn flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <i class="fa-solid fa-utensils text-lg mb-0.5"></i>
+                <span class="text-[10px] font-semibold" data-i18n="nav_menus">Menus</span>
+            </button>
+            <button onclick="switchTab('discussion')" id="nav-discussion" class="nav-btn flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <i class="fa-solid fa-comments text-lg mb-0.5"></i>
+                <span class="text-[10px] font-semibold" data-i18n="nav_chat">Discussion</span>
+            </button>
+            <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-btn flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <i class="fa-solid fa-trophy text-lg mb-0.5"></i>
+                <span class="text-[10px] font-semibold" data-i18n="nav_ranking">Classement</span>
+            </button>
+            <button onclick="switchTab('infos')" id="nav-infos" class="nav-btn flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <i class="fa-solid fa-circle-info text-lg mb-0.5"></i>
+                <span class="text-[10px] font-semibold" data-i18n="nav_info">Infos</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MODAL: PROFILE SETUP (PRÉNOM NOM) - OBLIGATOIRE AU DÉMARRAGE -->
+    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-user-pen text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="profile_title">Configuration du Profil UPHF</span>
+                </h3>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300" data-i18n="profile_desc">
+                Conformément au règlement UPHF, veuillez entrer votre <strong>Prénom et Nom</strong> réels pour accéder à l'application et participer au campus.
+            </p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" data-i18n="profile_label">Prénom et Nom</label>
+                    <input type="text" id="profile-fullname" placeholder="ex: Thomas Martin" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-uphf-500">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="saveProfile()" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition shadow-md w-full" data-i18n="profile_save">
+                    Accéder à l'application
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DEVELOPER CONTACT -->
+    <div id="dev-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-code text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="contact_modal_title">Contacter le Développeur</span>
+                </h3>
+                <button onclick="closeModal('dev-modal')" class="text-slate-400 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="contact_modal_desc">
+                Application collaborative PWA pour les étudiants de l'UPHF Valenciennes (RU Le Ronzier - Campus des Tertiales).
+            </p>
+            <div class="bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-2 text-xs">
+                <div class="text-slate-700 dark:text-slate-300"><strong data-i18n="dev_label">Développeur :</strong> Projet Étudiant UPHF</div>
+                <div class="text-slate-700 dark:text-slate-300"><strong data-i18n="email_label">Contact e-mail :</strong> <a href="mailto:louisPRK@proton.me" class="text-uphf-600 dark:text-uphf-400 underline font-mono">louisPRK@proton.me</a></div>
+            </div>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal('dev-modal')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold text-xs px-5 py-3 rounded-xl transition w-full" data-i18n="close_btn">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: UPDATE RU OCCUPANCY -->
+    <div id="update-occupancy-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="ru_modal_title">Modifier l'affluence du RU</span>
+                </h3>
+                <button onclick="closeModal('update-occupancy-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300" data-i18n="ru_modal_desc">Indiquez le niveau d'affluence estimé actuel (Max : 500 places).</p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" data-i18n="persons_input_lbl">Nombre de personnes présentes</label>
+                    <input type="number" id="ru-input-val" min="0" max="500" value="180" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-uphf-500">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeModal('update-occupancy-modal')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold text-xs px-4 py-3 rounded-xl transition" data-i18n="cancel_btn">Annuler</button>
+                <button onclick="submitRuOccupancy()" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition shadow-md" data-i18n="submit_xp_btn">Mettre à jour (+50 XP)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: UPDATE CAFET OCCUPANCY -->
+    <div id="update-cafet-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-mug-hot text-amber-500 dark:text-amber-400"></i> <span data-i18n="cafet_modal_title">Modifier l'affluence Cafétéria</span>
+                </h3>
+                <button onclick="closeModal('update-cafet-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300" data-i18n="cafet_modal_desc">Indiquez le niveau d'affluence actuel pour la Cafétéria (Max : 150 places).</p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" data-i18n="persons_input_lbl">Personnes présentes</label>
+                    <input type="number" id="cafet-input-val" min="0" max="150" value="65" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-uphf-500">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeModal('update-cafet-modal')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold text-xs px-4 py-3 rounded-xl transition" data-i18n="cancel_btn">Annuler</button>
+                <button onclick="submitCafetOccupancy()" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition shadow-md" data-i18n="submit_xp_btn">Mettre à jour (+50 XP)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN ACCESS & MENU MANAGEMENT -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-uphf-600 dark:text-uphf-400"></i> <span data-i18n="admin_modal_title">Espace Administrateur UPHF</span>
+                </h3>
+                <button onclick="closeModal('admin-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Login View -->
+            <div id="admin-login-view" class="space-y-4">
+                <p class="text-xs text-slate-600 dark:text-slate-300" data-i18n="admin_login_desc">Veuillez entrer le mot de passe administrateur pour modifier les menus.</p>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" data-i18n="admin_pwd_lbl">Mot de passe Admin</label>
+                    <input type="password" id="admin-password-input" placeholder="••••••••••••" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-uphf-500">
+                </div>
+                <button onclick="verifyAdmin()" class="w-full bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs py-3 rounded-xl transition shadow-md" data-i18n="login_btn">
+                    Se connecter
+                </button>
+            </div>
+
+            <!-- Dashboard Editor View (Hidden initially) -->
+            <div id="admin-editor-view" class="space-y-4 hidden">
+                <div class="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 p-3 rounded-xl text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> <span data-i18n="admin_connected">Connecté en tant qu'administrateur</span>
+                </div>
+
+                <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-1" data-i18n="edit_ru_menu">Modifier le Menu du RU</h4>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="starter">Entrée RU</label>
+                        <input type="text" id="edit-ru-starter" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="main_dish">Plat RU</label>
+                        <input type="text" id="edit-ru-main" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="dessert">Dessert RU</label>
+                        <input type="text" id="edit-ru-dessert" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-1 pt-2" data-i18n="edit_cafet_menu">Modifier le Menu de la Cafétéria</h4>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="sandwiches">Sandwiches & Paninis</label>
+                        <input type="text" id="edit-cafet-sandwiches" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="viennoiseries">Viennoiseries & Snacks</label>
+                        <input type="text" id="edit-cafet-viennes" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1" data-i18n="drinks">Boissons</label>
+                        <input type="text" id="edit-cafet-drinks" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 text-xs text-slate-800 dark:text-white">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button onclick="closeModal('admin-modal')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold text-xs px-4 py-3 rounded-xl transition" data-i18n="close_btn">Fermer</button>
+                    <button onclick="saveMenus()" class="bg-uphf-600 hover:bg-uphf-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition shadow-md" data-i18n="save_btn">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & I18N -->
+    <script>
+        const translations = {
+            fr: {
+                subtitle: "Campus des Tertiales, Valenciennes",
+                contact: "Contact",
+                welcome_default: "Bienvenue, Étudiant",
+                banner_desc: "Suivez l'affluence en direct et consultez les menus du RU et de la Cafétéria des Tertiales.",
+                secure_badge: "Sécurisé anti-DDoS / Anti-bot",
+                ru_badge: "Restaurant Universitaire",
+                current_occupancy: "Affluence actuelle :",
+                ru_fluid: "Fluide (Peu d'attente)",
+                ru_moderate: "Modéré",
+                ru_heavy: "Affluence forte",
+                wait_time_label: "Attente estimée :",
+                anti_flood: "Anti-flood actif",
+                update_btn: "Modifier l'affluence",
+                cafet_badge: "Espace de détente",
+                cafet_title: "Cafétéria UPHF",
+                persons_present: "Personnes présentes :",
+                cafet_modrate: "Modéré",
+                by_students: "Par les étudiants",
+                stat_contrib: "Contributions",
+                stat_score: "Mon Score",
+                badge_beginner: "Débutant",
+                badge_active: "Actif",
+                badge_ambassador: "Ambassadeur",
+                stat_badge_lbl: "Badge Actuel",
+                stat_campus: "Campus UPHF",
+                menu_tag: "Restauration UPHF",
+                menu_title: "Menus du Jour",
+                menu_subtitle: "Mis à jour pour le Campus des Tertiales",
+                admin_space: "Espace Admin",
+                today: "Aujourd'hui",
+                starter: "Entrée",
+                main_dish: "Plat principal",
+                dessert: "Dessert",
+                snacks_tag: "Formules & Snacks",
+                sandwiches: "Sandwiches & Paninis",
+                viennoiseries: "Viennoiseries & Snacks sucrés",
+                drinks: "Boissons & Chauds",
+                chat_title: "Fil de Discussion des Étudiants",
+                chat_subtitle: "Échangez entre étudiants du campus des Tertiales (Protégé anti-spam)",
+                ratelimit_note: "Rate-limit anti-flood (10s)",
+                publish_btn: "Publier",
+                leaderboard_title: "Classement des Contributeurs",
+                leaderboard_subtitle: "Les étudiants les plus actifs pour l'affluence du campus",
+                rank: "Rang",
+                student_name: "Étudiant (Prénom Nom)",
+                xp_points: "Points XP",
+                info_title: "Informations & Modalités",
+                hours_title: "Horaires d'Ouverture",
+                ru_ronzier_lbl: "RU Le Ronzier :",
+                cafet_lbl: "Cafétéria UPHF :",
+                days_open_lbl: "Jours d'ouverture :",
+                days_open_val: "Lundi au Vendredi",
+                rules_title: "Règles & Sécurité",
+                rules_desc: "Cette PWA intègre des protections anti-DDoS, anti-spam et une limitation de fréquence des requêtes (rate-limiting) afin d'assurer la stabilité du service pour tous les étudiants des Tertiales.",
+                newsletter_title: "Newsletter UPHF Tertiales",
+                newsletter_desc: "Recevez chaque lundi le menu de la semaine directement par e-mail.",
+                subscribe_btn: "S'inscrire",
+                gdpr_text: "Conformément au RGPD. Contact développeur :",
+                nav_home: "Accueil",
+                nav_menus: "Menus",
+                nav_chat: "Discussion",
+                nav_ranking: "Classement",
+                nav_info: "Infos",
+                profile_title: "Configuration du Profil UPHF",
+                profile_desc: "Conformément au règlement UPHF, veuillez entrer votre <strong>Prénom et Nom</strong> réels pour accéder à l'application et participer au campus.",
+                profile_label: "Prénom et Nom",
+                profile_save: "Accéder à l'application",
+                contact_modal_title: "Contacter le Développeur",
+                contact_modal_desc: "Application collaborative PWA pour les étudiants de l'UPHF Valenciennes (RU Le Ronzier - Campus des Tertiales).",
+                dev_label: "Développeur :",
+                email_label: "Contact e-mail :",
+                close_btn: "Fermer",
+                ru_modal_title: "Modifier l'affluence du RU",
+                ru_modal_desc: "Indiquez le niveau d'affluence estimé actuel (Max : 500 places).",
+                cafet_modal_title: "Modifier l'affluence Cafétéria",
+                cafet_modal_desc: "Indiquez le niveau d'affluence actuel pour la Cafétéria (Max : 150 places).",
+                persons_input_lbl: "Nombre de personnes présentes",
+                cancel_btn: "Annuler",
+                submit_xp_btn: "Mettre à jour (+50 XP)",
+                admin_modal_title: "Espace Administrateur UPHF",
+                admin_login_desc: "Veuillez entrer le mot de passe administrateur pour modifier les menus.",
+                admin_pwd_lbl: "Mot de passe Admin",
+                login_btn: "Se connecter",
+                admin_connected: "Connecté en tant qu'administrateur",
+                edit_ru_menu: "Modifier le Menu du RU",
+                edit_cafet_menu: "Modifier le Menu de la Cafétéria",
+                save_btn: "Enregistrer"
+            },
+            en: {
+                subtitle: "Tertiales Campus, Valenciennes",
+                contact: "Contact",
+                welcome_default: "Welcome, Student",
+                banner_desc: "Track live occupancy and check menus for the RU and Tertiales Cafeteria.",
+                secure_badge: "DDoS / Anti-bot Secured",
+                ru_badge: "University Dining Hall",
+                current_occupancy: "Current occupancy:",
+                ru_fluid: "Fluid (Low wait)",
+                ru_moderate: "Moderate",
+                ru_heavy: "High occupancy",
+                wait_time_label: "Est. wait time:",
+                anti_flood: "Anti-flood active",
+                update_btn: "Update occupancy",
+                cafet_badge: "Lounge Area",
+                cafet_title: "UPHF Cafeteria",
+                persons_present: "People present:",
+                cafet_modrate: "Moderate",
+                by_students: "By students",
+                stat_contrib: "Contributions",
+                stat_score: "My Score",
+                badge_beginner: "Beginner",
+                badge_active: "Active",
+                badge_ambassador: "Ambassador",
+                stat_badge_lbl: "Current Badge",
+                stat_campus: "UPHF Campus",
+                menu_tag: "UPHF Dining",
+                menu_title: "Today's Menus",
+                menu_subtitle: "Updated for the Tertiales Campus",
+                admin_space: "Admin Area",
+                today: "Today",
+                starter: "Starter",
+                main_dish: "Main dish",
+                dessert: "Dessert",
+                snacks_tag: "Snacks & Deals",
+                sandwiches: "Sandwiches & Paninis",
+                viennoiseries: "Viennoiseries & Sweet Snacks",
+                drinks: "Hot & Cold Drinks",
+                chat_title: "Student Discussion Board",
+                chat_subtitle: "Chat with fellow Tertiales campus students (Anti-spam protected)",
+                ratelimit_note: "Anti-flood rate limit (10s)",
+                publish_btn: "Publish",
+                leaderboard_title: "Contributor Leaderboard",
+                leaderboard_subtitle: "Most active students helping campus occupancy",
+                rank: "Rank",
+                student_name: "Student (First & Last Name)",
+                xp_points: "XP Points",
+                info_title: "Information & Terms",
+                hours_title: "Opening Hours",
+                ru_ronzier_lbl: "RU Le Ronzier:",
+                cafet_lbl: "UPHF Cafeteria:",
+                days_open_lbl: "Opening days:",
+                days_open_val: "Monday to Friday",
+                rules_title: "Rules & Security",
+                rules_desc: "This PWA includes anti-DDoS, anti-spam protections, and request rate-limiting to ensure service stability for all Tertiales students.",
+                newsletter_title: "UPHF Tertiales Newsletter",
+                newsletter_desc: "Receive weekly menus directly in your inbox every Monday.",
+                subscribe_btn: "Subscribe",
+                gdpr_text: "GDPR compliant. Developer contact:",
+                nav_home: "Home",
+                nav_menus: "Menus",
+                nav_chat: "Discussion",
+                nav_ranking: "Leaderboard",
+                nav_info: "Info",
+                profile_title: "UPHF Profile Setup",
+                profile_desc: "In accordance with UPHF regulations, please enter your real <strong>First and Last Name</strong> to access the app and participate.",
+                profile_label: "First and Last Name",
+                profile_save: "Access application",
+                contact_modal_title: "Contact Developer",
+                contact_modal_desc: "Collaborative PWA for UPHF Valenciennes students (RU Le Ronzier - Tertiales Campus).",
+                dev_label: "Developer:",
+                email_label: "Contact e-mail:",
+                close_btn: "Close",
+                ru_modal_title: "Update RU Occupancy",
+                ru_modal_desc: "Enter current estimated occupancy level (Max: 500 seats).",
+                cafet_modal_title: "Update Cafeteria Occupancy",
+                cafet_modal_desc: "Enter current occupancy level for the Cafeteria (Max: 150 seats).",
+                persons_input_lbl: "Number of people present",
+                cancel_btn: "Cancel",
+                submit_xp_btn: "Update (+50 XP)",
+                admin_modal_title: "UPHF Admin Area",
+                admin_login_desc: "Please enter the admin password to update menus.",
+                admin_pwd_lbl: "Admin Password",
+                login_btn: "Log in",
+                admin_connected: "Connected as administrator",
+                edit_ru_menu: "Edit RU Menu",
+                edit_cafet_menu: "Edit Cafeteria Menu",
+                save_btn: "Save"
+            }
+        };
+
+        let currentUser = localStorage.getItem('ru_username') || "";
+        let currentLang = 'fr';
+        
+        let userXP = parseInt(localStorage.getItem('ru_user_xp')) || 0;
+        let userReports = parseInt(localStorage.getItem('ru_user_reports')) || 0;
+
+        let lastActionTimestamp = 0;
+        const RATE_LIMIT_SECONDS = 10;
+
+        let discussionMessages = [
+            { name: "Chloé Leroy", time: "Il y a 10 min", text: "Le plat végétarien du RU est super bon aujourd'hui !" },
+            { name: "Lucas Bernard", time: "Il y a 25 min", text: "Environ 5 min d'attente à la cafet' actuellement." }
+        ];
+
+        let leaderboardData = [
+            { rank: 1, name: "Lucas Bernard", xp: 120, badge: "Contributeur" },
+            { rank: 2, name: "Chloé Leroy", xp: 90, badge: "Membre Actif" }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Restaurer le thème depuis localStorage si présent
+            const savedTheme = localStorage.getItem('uphf_theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-sun";
+            } else {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-moon";
+            }
+
+            if(currentUser) {
+                document.getElementById('welcome-user-display').innerText = (currentLang === 'fr' ? "Bienvenue, " : "Welcome, ") + currentUser;
+                closeModal('profile-modal');
+            } else {
+                openModal('profile-modal');
+            }
+            renderDiscussion();
+            renderLeaderboard();
+            updateStatsUI();
+            updateWaitTimes();
+        });
+
+        function updateWaitTimes() {
+            const ruVal = parseInt(document.getElementById('ru-count').innerText) || 180;
+            const cafetVal = parseInt(document.getElementById('cafet-count').innerText) || 65;
+
+            let ruWait = Math.round((ruVal / 500) * 20);
+            document.getElementById('ru-wait-time').innerText = `${ruWait} min`;
+
+            let cafetWait = Math.round((cafetVal / 150) * 12);
+            document.getElementById('cafet-wait-time').innerText = `${cafetWait} min`;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('text-uphf-600', 'dark:text-uphf-400');
+                el.classList.add('text-slate-400');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            activeNav.classList.remove('text-slate-400');
+            activeNav.classList.add('text-uphf-600', 'dark:text-uphf-400');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            if(id === 'profile-modal' && !currentUser) {
+                alert("Veuillez renseigner votre Prénom et Nom pour continuer.");
+                return;
+            }
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function sanitizeInput(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        function saveProfile() {
+            const rawInput = document.getElementById('profile-fullname').value.trim();
+            const input = sanitizeInput(rawInput);
+            const parts = input.split(' ');
+            if (parts.length < 2 || parts[0].length < 2 || parts[1].length < 2) {
+                alert("Veuillez entrer un Prénom et un Nom valides (conformément au règlement UPHF).");
+                return;
+            }
+            currentUser = input;
+            localStorage.setItem('ru_username', currentUser);
+            document.getElementById('welcome-user-display').innerText = (currentLang === 'fr' ? "Bienvenue, " : "Welcome, ") + currentUser;
+            document.getElementById('profile-modal').classList.add('hidden');
+            renderLeaderboard();
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = "fa-solid fa-sun";
+                localStorage.setItem('uphf_theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-moon";
+                localStorage.setItem('uphf_theme', 'dark');
+            }
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'fr' ? 'en' : 'fr';
+            document.getElementById('lang-label').innerText = currentLang === 'fr' ? 'EN' : 'FR';
+            applyTranslations();
+            if(currentUser) {
+                document.getElementById('welcome-user-display').innerText = (currentLang === 'fr' ? "Bienvenue, " : "Welcome, ") + currentUser;
+            }
+        }
+
+        function applyTranslations() {
+            const dict = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+        }
+
+        function checkRateLimit() {
+            const now = Date.now();
+            if (now - lastActionTimestamp < RATE_LIMIT_SECONDS * 1000) {
+                const remaining = Math.ceil((RATE_LIMIT_SECONDS * 1000 - (now - lastActionTimestamp)) / 1000);
+                alert(currentLang === 'fr' ? `Protection anti-spam active : veuillez patienter ${remaining} secondes.` : `Anti-spam active: please wait ${remaining} seconds.`);
+                return false;
+            }
+            lastActionTimestamp = now;
+            return true;
+        }
+
+        function submitRuOccupancy() {
+            if(!currentUser) { openModal('profile-modal'); return; }
+            if(!checkRateLimit()) return;
+
+            const val = parseInt(document.getElementById('ru-input-val').value);
+            if(isNaN(val) || val < 0 || val > 500) return alert("Valeur invalide (0-500)");
+            
+            document.getElementById('ru-count').innerText = val;
+            const pct = (val / 500) * 100;
+            document.getElementById('ru-progress').style.width = `${pct}%`;
+            
+            const statusLabel = document.getElementById('ru-status-label');
+            if(val < 200) {
+                statusLabel.innerText = translations[currentLang].ru_fluid;
+                statusLabel.className = "font-semibold text-emerald-600 dark:text-emerald-400";
+            } else if(val < 380) {
+                statusLabel.innerText = translations[currentLang].ru_moderate;
+                statusLabel.className = "font-semibold text-amber-600 dark:text-amber-400";
+            } else {
+                statusLabel.innerText = translations[currentLang].ru_heavy;
+                statusLabel.className = "font-semibold text-uphf-600 dark:text-uphf-400";
+            }
+
+            updateWaitTimes();
+
+            userXP += 50;
+            userReports += 1;
+            saveUserStats();
+            updateStatsUI();
+            closeModal('update-occupancy-modal');
+            alert(currentLang === 'fr' ? "Contribution enregistrée ! +50 XP" : "Contribution saved! +50 XP");
+        }
+
+        function submitCafetOccupancy() {
+            if(!currentUser) { openModal('profile-modal'); return; }
+            if(!checkRateLimit()) return;
+
+            const val = parseInt(document.getElementById('cafet-input-val').value);
+            if(isNaN(val) || val < 0 || val > 150) return alert("Valeur invalide (0-150)");
+            
+            document.getElementById('cafet-count').innerText = val;
+            const pct = (val / 150) * 100;
+            document.getElementById('cafet-progress').style.width = `${pct}%`;
+            
+            updateWaitTimes();
+
+            userXP += 50;
+            userReports += 1;
+            saveUserStats();
+            updateStatsUI();
+            closeModal('update-cafet-modal');
+            alert(currentLang === 'fr' ? "Contribution enregistrée ! +50 XP" : "Contribution saved! +50 XP");
+        }
+
+        function saveUserStats() {
+            localStorage.setItem('ru_user_xp', userXP);
+            localStorage.setItem('ru_user_reports', userReports);
+        }
+
+        function updateStatsUI() {
+            document.getElementById('stat-reports').innerText = userReports;
+            document.getElementById('stat-xp').innerText = `${userXP} XP`;
+            
+            let badgeKey = "badge_beginner";
+            if(userXP >= 200) badgeKey = "badge_ambassador";
+            else if(userXP >= 100) badgeKey = "badge_active";
+            document.getElementById('stat-badge').setAttribute('data-i18n', badgeKey);
+            document.getElementById('stat-badge').innerText = translations[currentLang][badgeKey];
+        }
+
+        function verifyAdmin() {
+            const pwd = document.getElementById('admin-password-input').value;
+            if(pwd === "louis-admin456") {
+                document.getElementById('admin-login-view').classList.add('hidden');
+                document.getElementById('admin-editor-view').classList.remove('hidden');
+                
+                document.getElementById('edit-ru-starter').value = document.getElementById('menu-ru-starter').innerText;
+                document.getElementById('edit-ru-main').value = document.getElementById('menu-ru-main').innerText;
+                document.getElementById('edit-ru-dessert').value = document.getElementById('menu-ru-dessert').innerText;
+                document.getElementById('edit-cafet-sandwiches').value = document.getElementById('menu-cafet-sandwiches').innerText;
+                document.getElementById('edit-cafet-viennes').value = document.getElementById('menu-cafet-viennes').innerText;
+                document.getElementById('edit-cafet-drinks').value = document.getElementById('menu-cafet-drinks').innerText;
+            } else {
+                alert(currentLang === 'fr' ? "Mot de passe incorrect." : "Incorrect password.");
+            }
+        }
+
+        function saveMenus() {
+            document.getElementById('menu-ru-starter').innerText = sanitizeInput(document.getElementById('edit-ru-starter').value);
+            document.getElementById('menu-ru-main').innerText = sanitizeInput(document.getElementById('edit-ru-main').value);
+            document.getElementById('menu-ru-dessert').innerText = sanitizeInput(document.getElementById('edit-ru-dessert').value);
+            
+            document.getElementById('menu-cafet-sandwiches').innerText = sanitizeInput(document.getElementById('edit-cafet-sandwiches').value);
+            document.getElementById('menu-cafet-viennes').innerText = sanitizeInput(document.getElementById('edit-cafet-viennes').value);
+            document.getElementById('menu-cafet-drinks').innerText = sanitizeInput(document.getElementById('edit-cafet-drinks').value);
+
+            alert(currentLang === 'fr' ? "Menus mis à jour avec succès !" : "Menus successfully updated!");
+            closeModal('admin-modal');
+        }
+
+        function renderDiscussion() {
+            const feed = document.getElementById('discussion-feed');
+            feed.innerHTML = discussionMessages.map(msg => `
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl space-y-2 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-full bg-uphf-50 dark:bg-uphf-600/30 text-uphf-600 dark:text-uphf-400 flex items-center justify-center text-xs font-bold">${msg.name.charAt(0)}</span>
+                            ${msg.name}
+                        </span>
+                        <span class="text-xs text-slate-400">${msg.time}</span>
+                    </div>
+                    <p class="text-xs text-slate-700 dark:text-slate-200 pl-9">${msg.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function postMessage() {
+            if(!currentUser) { openModal('profile-modal'); return; }
+            if(!checkRateLimit()) return;
+
+            const rawText = document.getElementById('discussion-input').value.trim();
+            const text = sanitizeInput(rawText);
+            if(!text) return alert(currentLang === 'fr' ? "Veuillez écrire un message." : "Please write a message.");
+            
+            discussionMessages.unshift({
+                name: currentUser,
+                time: currentLang === 'fr' ? "À l'instant" : "Just now",
+                text: text
+            });
+            
+            document.getElementById('discussion-input').value = "";
+            renderDiscussion();
+            
+            userXP += 10;
+            saveUserStats();
+            updateStatsUI();
+        }
+
+        function renderLeaderboard() {
+            const list = document.getElementById('leaderboard-list');
+            let fullLeaderboard = [...leaderboardData];
+            if(currentUser) {
+                const existing = fullLeaderboard.find(item => item.name === currentUser);
+                if(existing) {
+                    existing.xp = userXP;
+                } else {
+                    fullLeaderboard.push({ rank: 0, name: currentUser, xp: userXP, badge: "Nouveau" });
+                }
+            }
+            fullLeaderboard.sort((a, b) => b.xp - a.xp);
+
+            list.innerHTML = fullLeaderboard.map((item, idx) => `
+                <div class="p-4 grid grid-cols-12 items-center hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
+                    <span class="col-span-2 text-center font-bold ${idx === 0 ? 'text-amber-600 dark:text-amber-400 text-base' : 'text-slate-600 dark:text-slate-300'}">#${idx + 1}</span>
+                    <span class="col-span-7 font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                        ${item.name} ${item.name === currentUser ? '<span class="text-[10px] bg-uphf-50 dark:bg-uphf-500/20 text-uphf-600 dark:text-uphf-400 px-2 py-0.5 rounded-full">' + (currentLang === 'fr' ? 'Vous' : 'You') + '</span>' : ''}
+                    </span>
+                    <span class="col-span-3 text-right font-bold text-uphf-600 dark:text-uphf-400">${item.xp} XP</span>
+                </div>
+            `).join('');
+        }
+
+        function subscribeNewsletter() {
+            const rawEmail = document.getElementById('newsletter-email').value.trim();
+            const email = sanitizeInput(rawEmail);
+            if(!email || !email.includes('@')) {
+                alert(currentLang === 'fr' ? "Veuillez entrer une adresse e-mail valide." : "Please enter a valid e-mail address.");
+                return;
+            }
+            alert(currentLang === 'fr' ? "Inscription validée avec succès !" : "Successfully subscribed!");
+            document.getElementById('newsletter-email').value = "";
+        }
+    </script>
+</body>
+</html>
